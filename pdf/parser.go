@@ -28,3 +28,7 @@ func (p *Parser) Extract(pageNumber int) (string, error) {
 
 	return text, err
 }
+
+func (p *Parser) TotalPageNumber() int {
+	return p.reader.NumPage()
+}

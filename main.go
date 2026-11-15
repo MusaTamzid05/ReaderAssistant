@@ -1,18 +1,23 @@
 package main
 
 import (
-	"musa.io/bookreader/pdf"
+	"musa.io/bookreader/core"
 	"log"
 )
 func main() {
-	parser, err := pdf.NewParser("/home/musa/Downloads/build_an_ai_agent_from_scratch.pdf")
+	loader, err := core.MakeContextLoader("/home/musa/Downloads/build_an_ai_agent_from_scratch.pdf")
 
 	if err != nil {
 		log.Fatalln(err)
 	}
-	text, _ := parser.Extract(124)
+	texts := loader.Load(124)
 
-	log.Println(text)
+
+	for _, text := range texts {
+		log.Println(text)
+
+	}
+
 
 
 
