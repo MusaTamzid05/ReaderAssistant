@@ -3,10 +3,13 @@ package main
 import (
 	"musa.io/bookreader/core"
 	"musa.io/bookreader/llm"
+	"musa.io/bookreader/pdf"
 	"log"
 	"fmt"
+	"flag"
 )
-func main() {
+
+func coreTest() {
 	loader, err := core.MakeContextLoader("/home/musa/Downloads/build_an_ai_agent_from_scratch.pdf")
 
 	if err != nil {
@@ -28,8 +31,45 @@ func main() {
 
 
 	fmt.Println(response)
+}
+
+func pdfParsingTest() {
+	parser, err := pdf.NewParser("/home/musa/Downloads/build_an_ai_agent_from_scratch.pdf")
+
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	text, err := parser.Extract(137)
+
+
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	fmt.Println(text)
+
+}
+
+func appWorkingExample() {
+	pathPtr := flag.String("path", "", "Path to the path")
+	flag.Parse()
+
+	if *pathPtr == "" {
+		panic("file should be given to load first !")
+	}
+
+	repl, err := core.NewRepl(*pathPtr)
+
+	if err != nil {
+		panic(err)
+	}
+
+	repl.Start()
 
 
 
-
+}
+func main() {
+	appWorkingExample()
 }
