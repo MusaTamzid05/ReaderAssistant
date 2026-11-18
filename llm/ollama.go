@@ -83,8 +83,6 @@ func (o Ollama) Ask(question, document string) (string, error) {
 		return "", err
 	}
 
-	fmt.Println("Thinking ", result.Thinking)
-	fmt.Println("Response ", result.Response)
 
 	return strings.TrimSpace(result.Response), nil
 
