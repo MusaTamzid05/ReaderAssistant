@@ -15,6 +15,7 @@ type OllamaRequest struct {
 	Prompt string  `json:"prompt"`
 	Stream bool    `json:"stream"`
 	Think bool    `json:"think"`
+	Options map[string]any `json:"options,omitempty"`
 
 }
 
@@ -25,11 +26,14 @@ type OllamaResponse struct {
 }
 
 type Ollama struct {
+	generationToken int // token that are use to generate result
+	                   // if thinking is true then this token is
+					   // also used for thinking
 
 }
 
 func MakeOllama() Ollama {
-	return Ollama{}
+	return Ollama{generationToken: 8192}
 }
 
 
@@ -50,6 +54,9 @@ func (o Ollama) Ask(question, document string) (string, error) {
 		Prompt: prompt,
 		Stream: false,
 		Think: false,
+		Options: map[string]any {
+			"num_predict": o.generationToken,
+		},
 	}
 	data, err := json.Marshal(requestBody)
 
