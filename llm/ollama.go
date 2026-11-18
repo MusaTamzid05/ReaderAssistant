@@ -14,11 +14,14 @@ type OllamaRequest struct {
 	Model string   `json:"model"`
 	Prompt string  `json:"prompt"`
 	Stream bool    `json:"stream"`
+	Think bool    `json:"think"`
+
 }
 
 
 type OllamaResponse struct {
 	Response string `json:"response"`
+	Thinking string `json:"thinking"`
 }
 
 type Ollama struct {
@@ -43,9 +46,10 @@ func (o Ollama) Ask(question, document string) (string, error) {
 	`, document, question)
 
 	requestBody := OllamaRequest {
-		Model: "llama3:latest",
+		Model: "qwen3.5:9b",
 		Prompt: prompt,
 		Stream: false,
+		Think: false,
 	}
 	data, err := json.Marshal(requestBody)
 
@@ -78,6 +82,9 @@ func (o Ollama) Ask(question, document string) (string, error) {
 	if err != nil {
 		return "", err
 	}
+
+	fmt.Println("Thinking ", result.Thinking)
+	fmt.Println("Response ", result.Response)
 
 	return strings.TrimSpace(result.Response), nil
 
